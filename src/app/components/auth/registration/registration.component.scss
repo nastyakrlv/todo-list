@@ -1,0 +1,28 @@
+@import '../../../../colors.scss';
+:host {
+  height: 100vh;
+  display: flex;
+  background-color: $background-color-yellow;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 80%;
+
+  tui-input {
+    width: 100%;
+  }
+
+  .error {
+    height: 20px;
+  }
+
+  small {
+    color: red;
+  }
+}

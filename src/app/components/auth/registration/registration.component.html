@@ -1,0 +1,24 @@
+<form [formGroup]="registrationForm" (ngSubmit)="register()">
+  <tui-input formControlName="email">
+    Введедите почту
+    <input tuiTextfieldLegacy type="email" />
+  </tui-input>
+
+  <tui-input formControlName="password">
+    Введите пароль
+    <input tuiTextfieldLegacy type="password" />
+  </tui-input>
+
+  <tui-input formControlName="confirmPassword">
+    Подтвердите пароль
+    <input tuiTextfieldLegacy type="password" />
+  </tui-input>
+  <div class="error">
+    <small *ngIf="registrationForm.errors?.['mismatch']"
+      >Пароли должны совпадать</small
+    >
+  </div>
+
+  <button tuiButton type="submit">Зарегистрироваться</button>
+  <p>Уже есть аккаунт? <a>Войти</a></p>
+</form>

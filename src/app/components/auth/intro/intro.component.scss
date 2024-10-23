@@ -1,0 +1,38 @@
+@import '../../../../colors.scss';
+
+:host {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $background-color-yellow;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 100vh;
+
+    @media (max-width: 768px) {
+      .navigation {
+        display: none;
+      }
+    }
+
+    .carousel {
+      flex: 1;
+
+      .item {
+        padding: 1rem;
+        border: 1px solid var(--tui-border-normal);
+        border-radius: 1rem;
+        height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  }
+}
