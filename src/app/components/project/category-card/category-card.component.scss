@@ -1,0 +1,57 @@
+@import '../../../../colors.scss';
+
+.categoryCard {
+  background-color: $background-color-yellow;
+  width: 300px;
+  border-radius: 29px;
+
+  .title {
+    color: #f1cb64;
+  }
+}
+
+.tiles {
+  gap: 1rem;
+  grid-auto-rows: minmax(145px, auto);
+}
+
+.content {
+  box-sizing: border-box;
+  display: flex;
+  block-size: 100%;
+  padding: 0 1rem;
+  background: #ffffff;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.taskInfo {
+  flex-direction: column;
+  justify-content: left;
+  align-items: flex-start;
+  align-content: start;
+  gap: 6px;
+
+  .name {
+    margin: 8px 0;
+    color: #787779;
+    line-height: 1.3;
+  }
+
+  .badge {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .description {
+    margin: 4px 0;
+    font-size: 11px;
+    color: #aeaeae;
+  }
+
+  .date {
+    margin: 0;
+    font-size: 11px;
+    color: #d3d3d3;
+  }
+}

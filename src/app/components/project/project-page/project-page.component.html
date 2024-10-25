@@ -1,0 +1,16 @@
+<app-project-select [currentProjectName]="project.name" />
+<main class="wrapper">
+  <div class="roleCard" tuiAppearance="neutral" tuiCardMedium>
+    <h2 tuiTitle>Роль в проекте {{ (project$ | async)?.name }}</h2>
+    <p tuiSubtitle>Редактор</p>
+  </div>
+
+  <div class="categories">
+    @for (category of project.categories; track category.id) {
+    <app-category-card
+      [category]="category"
+      [tasks]="getTasksByCategoryId(category.id)"
+    />
+    }
+  </div>
+</main>

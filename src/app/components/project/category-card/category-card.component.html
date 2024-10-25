@@ -1,0 +1,34 @@
+<div class="categoryCard" tuiCardLarge tuiAppearance="neutral">
+  <h2 tuiTitle class="title">{{ category.name }}</h2>
+  <tui-tiles class="tiles" [(order)]="order">
+    <tui-tile
+      *ngFor="let item of tasks; let index = index"
+      tuiTileHandle
+      class="tile"
+      [class.tile_tall]="item.name === 'John Cleese'"
+      [style.order]="order.get(index)"
+    >
+      <div class="content">
+        <div class="taskInfo">
+          <h5 class="name">{{ item.name }}</h5>
+          <tui-badge
+            size="l"
+            class="badge"
+            [style.background]="
+              item.badge === 'Сделано' ? '#FAF0FB' : '#E5FDEA'
+            "
+            [style.color]="item.badge === 'Сделано' ? '#EE88AC' : '#7BDD8D'"
+          >
+            {{ item.badge }}
+          </tui-badge>
+          <p class="description">{{ item.description }}</p>
+          <p class="date">{{ item.date }}</p>
+        </div>
+      </div>
+    </tui-tile>
+  </tui-tiles>
+  <button appearance="secondary" size="m" tuiButton type="button">
+    <tui-icon icon="@tui.plus" [style.height.rem]="1" />
+    Добавить задачу
+  </button>
+</div>

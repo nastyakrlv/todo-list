@@ -1,0 +1,37 @@
+<div class="selectWrapper">
+  <button
+    tuiButton
+    tuiChevron
+    tuiDropdownOpen
+    type="button"
+    appearance="flat"
+    iconEnd="@tui.chevron-down"
+    [tuiDropdown]="content"
+    class="button"
+    [(tuiDropdownOpen)]="open"
+  >
+    {{ currentProjectName }}
+  </button>
+  <ng-template #content>
+    <tui-data-list role="menu">
+      @for (project of projects; track project.id) {
+      <a
+        #rla="routerLinkActive"
+        role="menuitemradio"
+        routerLinkActive
+        tuiOption
+        [attr.aria-checked]="rla.isActive"
+        [routerLink]="'/project/' + project.id"
+        (click)="open = false"
+      >
+        {{ project.name }}
+        @if (rla.isActive) {
+        <tui-icon icon="@tui.check" />
+        } @else {
+        <div class="stub"></div>
+        }
+      </a>
+      }
+    </tui-data-list>
+  </ng-template>
+</div>

@@ -7,7 +7,7 @@ import { IUser } from '../interfaces';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://6710006ca85f4164ef2cbf7a.mockapi.io/api';
+  private apiUrl = 'https://66fd80996993693089556892.mockapi.io/api/';
 
   constructor(private http: HttpClient) {}
 
