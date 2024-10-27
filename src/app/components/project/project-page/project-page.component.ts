@@ -13,11 +13,18 @@ import { IProject } from '../../../interfaces/project.interface';
 import { ProjectSelectComponent } from '../project-select/project-select.component';
 import { TasksService } from 'src/app/services/tasks.service';
 import { ITask } from 'src/app/interfaces/task.interface';
+import { TuiButton, TuiIcon } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-project-page',
   standalone: true,
-  imports: [CommonModule, CategoryCardComponent, ProjectSelectComponent],
+  imports: [
+    CommonModule,
+    CategoryCardComponent,
+    ProjectSelectComponent,
+    TuiIcon,
+    TuiButton,
+  ],
   templateUrl: './project-page.component.html',
   styleUrl: './project-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

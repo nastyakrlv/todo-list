@@ -2,7 +2,7 @@
 <main class="wrapper">
   <div class="roleCard" tuiAppearance="neutral" tuiCardMedium>
     <h2 tuiTitle>Роль в проекте {{ (project$ | async)?.name }}</h2>
-    <p tuiSubtitle>Редактор</p>
+    <p class="role" tuiSubtitle>Редактор</p>
   </div>
 
   <div class="categories">
@@ -12,5 +12,15 @@
       [tasks]="getTasksByCategoryId(category.id)"
     />
     }
+    <button
+      class="categoryButton"
+      appearance="secondary"
+      size="l"
+      tuiButton
+      type="button"
+    >
+      <tui-icon icon="@tui.plus" [style.height.rem]="1" />
+      Добавить категорию
+    </button>
   </div>
 </main>

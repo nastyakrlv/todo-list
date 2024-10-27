@@ -4,35 +4,62 @@
   background-color: $background-color-yellow;
   width: 300px;
   border-radius: 29px;
+  position: relative;
 
   .title {
     color: #f1cb64;
   }
+
+  .categoryDeleteButton {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #134563;
+  }
+
+  &:hover {
+    .categoryDeleteButton {
+      display: inline-flex;
+    }
+  }
 }
 
-.tiles {
-  gap: 1rem;
-  grid-auto-rows: minmax(145px, auto);
-}
-
-.content {
-  box-sizing: border-box;
+.tasks {
   display: flex;
-  block-size: 100%;
-  padding: 0 1rem;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.task {
+  position: relative;
+  padding: 8px 15px;
   background: #ffffff;
   border-radius: 16px;
-  cursor: pointer;
-}
-
-.taskInfo {
+  box-sizing: border-box;
+  display: flex;
   flex-direction: column;
   justify-content: left;
-  align-items: flex-start;
-  align-content: start;
   gap: 6px;
 
+  .taskControls {
+    display: none;
+    position: absolute;
+    right: 7px;
+
+    .control {
+      color: #134563;
+    }
+  }
+
+  &:hover {
+    .taskControls {
+      display: block;
+    }
+  }
+
   .name {
+    max-width: 80%;
     margin: 8px 0;
     color: #787779;
     line-height: 1.3;

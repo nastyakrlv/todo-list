@@ -1,32 +1,51 @@
 <div class="categoryCard" tuiCardLarge tuiAppearance="neutral">
+  <button
+    class="categoryDeleteButton"
+    appearance="secondary-destructive"
+    iconStart="@tui.trash-2"
+    size="m"
+    tuiIconButton
+    type="button"
+    [style.border-radius.%]="100"
+  ></button>
   <h2 tuiTitle class="title">{{ category.name }}</h2>
-  <tui-tiles class="tiles" [(order)]="order">
-    <tui-tile
-      *ngFor="let item of tasks; let index = index"
-      tuiTileHandle
-      class="tile"
-      [class.tile_tall]="item.name === 'John Cleese'"
-      [style.order]="order.get(index)"
-    >
-      <div class="content">
-        <div class="taskInfo">
-          <h5 class="name">{{ item.name }}</h5>
-          <tui-badge
-            size="l"
-            class="badge"
-            [style.background]="
-              item.badge === 'Сделано' ? '#FAF0FB' : '#E5FDEA'
-            "
-            [style.color]="item.badge === 'Сделано' ? '#EE88AC' : '#7BDD8D'"
-          >
-            {{ item.badge }}
-          </tui-badge>
-          <p class="description">{{ item.description }}</p>
-          <p class="date">{{ item.date }}</p>
-        </div>
+  <div class="tasks">
+    @for (item of tasks; track item.id) {
+    <div class="task">
+      <div class="taskControls">
+        <button
+          class="control"
+          appearance="secondary-destructive"
+          iconStart="@tui.trash-2"
+          size="xs"
+          tuiIconButton
+          type="button"
+          [style.border-radius.%]="100"
+        ></button>
+        <button
+          class="control"
+          appearance="secondary-destructive"
+          iconStart="@tui.square-pen"
+          size="xs"
+          tuiIconButton
+          type="button"
+          [style.border-radius.%]="100"
+        ></button>
       </div>
-    </tui-tile>
-  </tui-tiles>
+      <h5 class="name">{{ item.name }}</h5>
+      <tui-badge
+        size="l"
+        class="badge"
+        [style.background]="item.badge === 'Сделано' ? '#e5fdea' : '#faf0fb'"
+        [style.color]="item.badge === 'Сделано' ? '#7bdd8d' : '#ee88ac'"
+      >
+        {{ item.badge }}
+      </tui-badge>
+      <p class="description">{{ item.description }}</p>
+      <p class="date">{{ item.date }}</p>
+    </div>
+    }
+  </div>
   <button appearance="secondary" size="m" tuiButton type="button">
     <tui-icon icon="@tui.plus" [style.height.rem]="1" />
     Добавить задачу
