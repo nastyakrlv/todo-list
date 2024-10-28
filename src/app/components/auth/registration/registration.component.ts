@@ -1,16 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  FormBuilder,
+  AbstractControl,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { AuthService } from 'src/app/services';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { IUser } from 'src/app/interfaces';
-import { TuiButton, TuiError } from '@taiga-ui/core';
+import { TuiAlertService, TuiButton } from '@taiga-ui/core';
 import { TuiInputModule } from '@taiga-ui/legacy';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-registration',
@@ -20,7 +23,7 @@ import { TuiInputModule } from '@taiga-ui/legacy';
     ReactiveFormsModule,
     TuiButton,
     TuiInputModule,
-    TuiError,
+    RouterLink,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
@@ -30,17 +33,19 @@ export class RegistrationComponent {
   registrationForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private destroyRef: DestroyRef,
+    private alerts: TuiAlertService
   ) {
-    this.registrationForm = this.fb.group(
+    this.registrationForm = new FormGroup(
       {
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required],
-        confirmPassword: ['', Validators.required],
+        email: new FormControl('', [Validators.required, Validators.email]),
+        name: new FormControl('', Validators.required),
+        password: new FormControl('', Validators.required),
+        confirmPassword: new FormControl('', Validators.required),
       },
-      { validator: this.passwordMatchValidator }
+      { validators: this.passwordMatchValidator }
     );
   }
 
@@ -51,15 +56,32 @@ export class RegistrationComponent {
 
     const userData: IUser = {
       email: this.registrationForm.get('email')?.value,
+      name: this.registrationForm.get('name')?.value,
       password: this.registrationForm.get('password')?.value,
     };
 
-    this.authService.register(userData).subscribe();
+    this.authService
+      .register(userData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (user: IUser) => {
+          this.authService.saveUser(user);
+          // this.router.navigate(['/project']); //TODO: НИНА сделать перенаправление на рабочую страницу
+        },
+        error: (err) => {
+          this.alerts
+            .open(`${err.message}`, { label: 'Ошибка', appearance: 'error' })
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe();
+        },
+      });
   }
 
-  private passwordMatchValidator(formGroup: FormGroup) {
-    const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirmPassword');
+  private passwordMatchValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword');
     if (confirmPassword?.touched || confirmPassword?.dirty) {
       return password === confirmPassword?.value ? null : { mismatch: true };
     }
