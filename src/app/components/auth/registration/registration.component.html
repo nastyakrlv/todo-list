@@ -1,7 +1,12 @@
 <form [formGroup]="registrationForm" (ngSubmit)="register()">
   <tui-input formControlName="email">
-    Введедите почту
+    Введите почту
     <input tuiTextfieldLegacy type="email" />
+  </tui-input>
+
+  <tui-input formControlName="name">
+    Введите никнейм
+    <input tuiTextfieldLegacy type="text" />
   </tui-input>
 
   <tui-input formControlName="password">
@@ -19,6 +24,8 @@
     >
   </div>
 
-  <button tuiButton type="submit">Зарегистрироваться</button>
-  <p>Уже есть аккаунт? <a>Войти</a></p>
+  <button tuiButton type="submit" [disabled]="registrationForm.invalid">
+    Зарегистрироваться
+  </button>
+  <p>Уже есть аккаунт? <a [routerLink]="['../login']">Войти</a></p>
 </form>
