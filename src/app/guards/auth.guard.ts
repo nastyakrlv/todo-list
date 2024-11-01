@@ -6,9 +6,9 @@ export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLoggedIn() === false) {
-    // router.navigate(['/project']); //TODO: НИНА сделать перенаправление на рабочую страницу
-    return false;
+  if (authService.isLoggedIn()) {
+    router.navigate(['/projects']);
+    return true;
   }
 
   return authService.isLoggedIn();

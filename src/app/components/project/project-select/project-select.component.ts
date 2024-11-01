@@ -47,49 +47,6 @@ export class ProjectSelectComponent implements OnInit {
   private loadProjects(): void {
     this.projectsService.projects$.pipe(take(1)).subscribe((projects) => {
       this.projects = projects;
-      console.log(projects);
     });
   }
-
-  protected readonly groups = [
-    {
-      label: 'Components',
-      items: [
-        {
-          label: 'Input',
-          routerLink: '/components/input',
-        },
-        {
-          label: 'Select',
-          routerLink: '/components/select',
-        },
-        {
-          label: 'DataList',
-          routerLink: '/components/data-list',
-        },
-      ],
-    },
-    {
-      label: 'Styles',
-      items: [
-        {
-          label: 'Icons',
-          routerLink: '/icons',
-        },
-        {
-          label: 'Typography',
-          routerLink: '/typography',
-        },
-      ],
-    },
-    {
-      label: '',
-      items: [
-        {
-          label: 'Changelog',
-          routerLink: '/changelog',
-        },
-      ],
-    },
-  ];
 }

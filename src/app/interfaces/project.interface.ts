@@ -5,7 +5,7 @@ import { ITask } from './task.interface';
 export interface IProject {
   id: string;
   name: string;
-  users: Array<IUserInfo>;
-  categories: Array<ICategory>;
-  tasks: Array<ITask>;
+  users: IUserInfo[];
+  categories: ICategory[];
+  tasks: ITask[];
 }
