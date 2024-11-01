@@ -1,4 +1,4 @@
-export * from './auth.interface';
+export * from './user.interface';
 export * from './category.interface';
 export * from './project.interface';
 export * from './task.interface';

@@ -1,0 +1,17 @@
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <tui-input formControlName="email">
+    Введите почту
+    <input tuiTextfieldLegacy type="email" />
+  </tui-input>
+
+  <tui-input formControlName="password">
+    Введите пароль
+    <input tuiTextfieldLegacy type="password" />
+  </tui-input>
+
+  <button tuiButton type="submit" [disabled]="loginForm.invalid">Войти</button>
+  <p>
+    У вас нет учетной записи?
+    <a [routerLink]="['../register']">Зарегистрироваться</a>
+  </p>
+</form>
