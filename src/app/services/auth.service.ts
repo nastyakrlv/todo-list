@@ -53,8 +53,8 @@ export class AuthService {
     );
   }
 
-  private getUsers(): Observable<IUser[]> {
-    return this.http.get<IUser[]>(`${this.apiUrl}/users`);
+  logout() {
+    localStorage.removeItem('user');
   }
 
   saveUser(userData: IUser): void {
@@ -64,5 +64,9 @@ export class AuthService {
   isLoggedIn(): boolean {
     const user = localStorage.getItem('user');
     return !!user;
+  }
+
+  private getUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`${this.apiUrl}/users`);
   }
 }
