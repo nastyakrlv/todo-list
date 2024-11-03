@@ -52,7 +52,7 @@ export class LoginComponent {
         .subscribe({
           next: (user: IUser) => {
             this.authService.saveUser(user);
-            this.router.navigate(['/workplace'])
+            this.router.navigate(['/workplace']);
           },
           error: (err) => {
             this.alerts

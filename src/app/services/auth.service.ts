@@ -69,4 +69,14 @@ export class AuthService {
   private getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(`${this.apiUrl}/users`);
   }
+
+  getCurrentUserId(): string {
+    const user = JSON.parse(localStorage.getItem('user') || '');
+
+    if (user) {
+      return user.id;
+    }
+
+    return '';
+  }
 }

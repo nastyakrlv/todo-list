@@ -1,39 +1,22 @@
 <div class="main-page" [style.display]="'flex'">
-    <aside
-        [tuiNavigationAside]="expanded"
-    >
-        <a
-            iconStart="@tui.lock"
-            tuiAsideItem
-            [routerLink]="'projects'"
-        >
-            Личное
-        </a>
-        <a
-            iconStart="@tui.users"
-            tuiAsideItem
-        >
-            Доступное мне
-        </a>
-        <a
-            iconStart="@tui.user"
-            tuiAsideItem
-            [routerLink]="['profile']"
-        >
-            Профиль
-        </a>
-        <footer>
-            <button
-                tuiAsideItem
-                type="button"
-                [iconStart]="expanded ? '@tui.chevron-left' : '@tui.chevron-right'"
-                (click)="expanded = !expanded"
-            >
-                {{ expanded ? 'Свернуть' : 'Развернуть' }}
-            </button>
-        </footer>
-    </aside>
-    <main tuiNavigationMain>
-        <router-outlet></router-outlet>
-    </main>
+  <aside [tuiNavigationAside]="expanded">
+    <a iconStart="@tui.lock" tuiAsideItem [routerLink]="'projects'"> Личное </a>
+    <a iconStart="@tui.users" tuiAsideItem> Доступное мне </a>
+    <a iconStart="@tui.user" tuiAsideItem [routerLink]="['profile']">
+      Профиль
+    </a>
+    <footer>
+      <button
+        tuiAsideItem
+        type="button"
+        [iconStart]="expanded ? '@tui.chevron-left' : '@tui.chevron-right'"
+        (click)="expanded = !expanded"
+      >
+        {{ expanded ? 'Свернуть' : 'Развернуть' }}
+      </button>
+    </footer>
+  </aside>
+  <main tuiNavigationMain>
+    <router-outlet></router-outlet>
+  </main>
 </div>
