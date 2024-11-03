@@ -11,7 +11,7 @@ import { IUser } from 'src/app/interfaces';
 import { TuiAlertService, TuiButton } from '@taiga-ui/core';
 import { TuiInputModule } from '@taiga-ui/legacy';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +33,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private alerts: TuiAlertService,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private router: Router
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -51,7 +52,7 @@ export class LoginComponent {
         .subscribe({
           next: (user: IUser) => {
             this.authService.saveUser(user);
-            // this.router.navigate(['/project']); //TODO: НИНА сделать перенаправление на рабочую страницу
+            this.router.navigate(['/workplace'])
           },
           error: (err) => {
             this.alerts

@@ -66,7 +66,7 @@ export class RegistrationComponent {
       .subscribe({
         next: (user: IUser) => {
           this.authService.saveUser(user);
-          // this.router.navigate(['/project']); //TODO: НИНА сделать перенаправление на рабочую страницу
+          this.router.navigate(['/workplace'])
         },
         error: (err) => {
           this.alerts
