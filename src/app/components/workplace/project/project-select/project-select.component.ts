@@ -9,9 +9,9 @@ import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { TuiChevron } from '@taiga-ui/kit';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TuiButton, TuiDataList, TuiDropdown, TuiIcon } from '@taiga-ui/core';
-import { ProjectsService } from '../../../services/projects.service';
+import { ProjectsService } from 'src/app/services/projects.service';
 import { take } from 'rxjs';
-import { IProject } from '../../../interfaces/project.interface';
+import { IProject } from 'src/app/interfaces/project.interface';
 
 @Component({
   selector: 'app-project-select',
@@ -45,8 +45,11 @@ export class ProjectSelectComponent implements OnInit {
   }
 
   private loadProjects(): void {
-    this.projectsService.projects$.pipe(take(1)).subscribe((projects) => {
-      this.projects = projects;
-    });
+    this.projectsService
+      .getPersonalProjectsByCurrentUser()
+      .pipe(take(1))
+      .subscribe((projects) => {
+        this.projects = projects;
+      });
   }
 }

@@ -3,26 +3,25 @@ import {
   IntroComponent,
   LoginComponent,
   RegistrationComponent,
-  ProjectPageComponent,
+  ProjectComponent,
   WorkplaceComponent,
   ProfileComponent,
 } from './components';
 import { AppComponent } from './app.component';
-import { ProjectsComponent } from './components/projects/projects.component';
+import { ProjectsComponent } from './components/workplace/projects/projects.component';
 import { workplaceGuard } from './guards/workplace.guard';
 import { authGuard } from './guards/auth.guard';
 
 export const appRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: AppComponent },
   { path: 'auth', component: IntroComponent, canActivate: [authGuard] },
-  { path: 'auth/register', component: RegistrationComponent, canActivate: [authGuard] },
-  { path: 'auth/login', component: LoginComponent, canActivate: [authGuard] },
-  { 
-    path: 'projects/:projectId',
-    component: ProjectPageComponent,
-    canActivate: [workplaceGuard]
+  {
+    path: 'auth/register',
+    component: RegistrationComponent,
+    canActivate: [authGuard],
   },
-  { 
+  { path: 'auth/login', component: LoginComponent, canActivate: [authGuard] },
+  {
     path: 'workplace',
     component: WorkplaceComponent,
     canActivate: [workplaceGuard],
@@ -31,16 +30,20 @@ export const appRoutes: Route[] = [
       {
         path: '',
         redirectTo: 'projects',
-        pathMatch: 'full', 
+        pathMatch: 'full',
       },
-      { 
+      {
         path: 'profile',
         component: ProfileComponent,
       },
-      { 
-        path: 'projects', 
-        component: ProjectsComponent, 
+      {
+        path: 'projects',
+        component: ProjectsComponent,
       },
-    ]
+      {
+        path: 'projects/:projectId',
+        component: ProjectComponent,
+      },
+    ],
   },
 ];

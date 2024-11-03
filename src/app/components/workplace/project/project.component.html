@@ -2,7 +2,7 @@
 <main class="wrapper">
   <div class="roleCard" tuiAppearance="neutral" tuiCardMedium>
     <h2 tuiTitle>Роль в проекте {{ (project$ | async)?.name }}</h2>
-    <p class="role" tuiSubtitle>Редактор</p>
+    <p class="role" tuiSubtitle>{{ role }}</p>
   </div>
 
   <div class="categories">

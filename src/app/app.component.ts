@@ -12,10 +12,7 @@ import { AuthService } from './services';
 })
 export class AppComponent implements OnInit {
   title = 'todo-list';
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-  ) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
     const user = this.authService.isLoggedIn();

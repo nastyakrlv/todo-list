@@ -46,11 +46,12 @@ users: [
 projects: [
     {
         id: String,
+        type: String (personal | shared)
         name: String,
         users: [
             {
                 id: String,
-                rolt: String
+                role: String (Администратор | Редактор | Зритель)
             },
             ...
         ],

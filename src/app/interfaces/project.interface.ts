@@ -4,6 +4,7 @@ import { ITask } from './task.interface';
 
 export interface IProject {
   id: string;
+  type: string;
   name: string;
   users: IUserInfo[];
   categories: ICategory[];

@@ -4,7 +4,6 @@ import { TuiButton } from '@taiga-ui/core';
 import { AuthService } from 'src/app/services';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -14,11 +13,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
-
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   logout() {
     this.authService.logout();

@@ -1,0 +1,38 @@
+<div class="head">
+  <h1 class="title">Мои проекты</h1>
+  <button
+    appearance="secondary-destructive"
+    iconStart="@tui.plus"
+    size="l"
+    tuiIconButton
+    type="button"
+    (click)="showDialog(template)"
+  ></button>
+</div>
+
+<ul>
+  @for (project of projects; track project.id) {
+  <li>
+    <a [routerLink]="project.id">
+      {{ project.name }}
+    </a>
+  </li>
+  }
+</ul>
+
+<ng-template #template let-observer>
+  <h2>Добавить новый проект</h2>
+  <form
+    [formGroup]="newProjectForm"
+    (ngSubmit)="createNewProject(); observer.complete()"
+    class="form"
+  >
+    <tui-input formControlName="name">
+      Название проекта
+      <input tuiTextfieldLegacy type="text" />
+    </tui-input>
+    <button tuiButton type="submit" [disabled]="newProjectForm.invalid">
+      Добавить
+    </button>
+  </form>
+</ng-template>
