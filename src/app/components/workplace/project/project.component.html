@@ -1,5 +1,5 @@
 <app-project-select [currentProjectName]="project.name" />
-<main class="wrapper">
+<div class="wrapper">
   <div class="roleCard" tuiAppearance="neutral" tuiCardMedium>
     <h2 tuiTitle>Роль в проекте {{ (project$ | async)?.name }}</h2>
     <p class="role" tuiSubtitle>{{ role }}</p>
@@ -10,6 +10,7 @@
     <app-category-card
       [category]="category"
       [tasks]="getTasksByCategoryId(category.id)"
+      (deleteCategory)="onDeleteCategory(category.id)"
     />
     }
     <button
@@ -18,9 +19,32 @@
       size="l"
       tuiButton
       type="button"
+      (click)="showDialog(template)"
     >
       <tui-icon icon="@tui.plus" [style.height.rem]="1" />
       Добавить категорию
     </button>
   </div>
-</main>
+
+  <ng-template #template let-observer>
+    <h2>Добавить категорию</h2>
+    <form
+      [formGroup]="newCategoryForm"
+      (ngSubmit)="createNewCategory(); observer.complete()"
+      class="form"
+    >
+      <tui-input formControlName="name">
+        Название проекта
+        <input tuiTextfieldLegacy type="text" />
+      </tui-input>
+      <div class="error">
+        <small *ngIf="newCategoryForm.errors?.['match']"
+          >Название категории должно быть уникальным</small
+        >
+      </div>
+      <button tuiButton type="submit" [disabled]="newCategoryForm.invalid">
+        Добавить
+      </button>
+    </form>
+  </ng-template>
+</div>

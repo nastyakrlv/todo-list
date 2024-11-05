@@ -55,3 +55,14 @@
   color: #4f4a4a;
   border-radius: 29px;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h1 {
+  margin: 0;
+  padding: 30px 0;
+}
