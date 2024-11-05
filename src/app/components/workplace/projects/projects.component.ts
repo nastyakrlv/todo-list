@@ -18,11 +18,9 @@ import {
 } from '@taiga-ui/core';
 import { type PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/legacy';
@@ -64,11 +62,9 @@ export class ProjectsComponent implements OnInit {
       });
   }
 
-  newProjectForm: FormGroup = new FormGroup(
-    {
-      name: new FormControl('', Validators.required),
-    },
-  );
+  newProjectForm: FormGroup = new FormGroup({
+    name: new FormControl('', Validators.required),
+  });
 
   createNewProject() {
     if (this.newProjectForm.invalid) {

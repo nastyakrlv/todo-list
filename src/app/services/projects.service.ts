@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
 import { AuthService } from './auth.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -59,5 +60,38 @@ export class ProjectsService {
     );
 
     return personalProjects$;
+  }
+
+  createNewCategory(project: IProject, name: string): Observable<IProject> {
+    project.categories.push({
+      id: uuidv4(),
+      name: name,
+    });
+
+    return this.httpClient
+      .put<IProject>(`${this.apiUrl}/${project.id}`, project)
+      .pipe(
+        map((project) => {
+          return project;
+        })
+      );
+  }
+
+  removeCategory(project: IProject, categoryId: string) {
+    const idx = project.categories.findIndex(
+      (category) => category.id === categoryId
+    );
+
+    if (idx !== -1) {
+      project.categories.splice(idx, 1);
+    }
+
+    return this.httpClient
+      .put<IProject>(`${this.apiUrl}/${project.id}`, project)
+      .pipe(
+        map((project) => {
+          return project;
+        })
+      );
   }
 }

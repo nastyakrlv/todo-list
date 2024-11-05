@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiAppearance, TuiButton, TuiIcon, TuiTitle } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
@@ -27,5 +33,11 @@ export class CategoryCardComponent {
   @Input() category: ICategory = <ICategory>{};
   @Input() tasks: ITask[] = [];
 
+  @Output() deleteCategory = new EventEmitter();
+
   protected order = new Map();
+
+  onDeleteCategoryClick() {
+    this.deleteCategory.emit();
+  }
 }
