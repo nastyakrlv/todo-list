@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
 import { AuthService } from './auth.service';
 import { v4 as uuidv4 } from 'uuid';
+import { ICreateTask } from '../interfaces/create-task.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -84,6 +85,52 @@ export class ProjectsService {
 
     if (idx !== -1) {
       project.categories.splice(idx, 1);
+
+      // каскадом удаляем задачи в этой категории
+      const filteredTasks = project.tasks.filter(
+        (task) => task.categoryId !== categoryId
+      );
+      project.tasks = filteredTasks;
+    }
+
+    return this.httpClient
+      .put<IProject>(`${this.apiUrl}/${project.id}`, project)
+      .pipe(
+        map((project) => {
+          return project;
+        })
+      );
+  }
+
+  createNewTask(
+    project: IProject,
+    categoryId: string,
+    task: ICreateTask
+  ): Observable<IProject> {
+    const userId = this.authService.getCurrentUserId();
+
+    project.tasks.push({
+      id: uuidv4(),
+      ...task,
+      badge: 'Не сделано',
+      categoryId: categoryId,
+      userId: userId,
+    });
+
+    return this.httpClient
+      .put<IProject>(`${this.apiUrl}/${project.id}`, project)
+      .pipe(
+        map((project) => {
+          return project;
+        })
+      );
+  }
+
+  removeTask(project: IProject, taskId: string) {
+    const idx = project.tasks.findIndex((task) => task.id === taskId);
+
+    if (idx !== -1) {
+      project.tasks.splice(idx, 1);
     }
 
     return this.httpClient
