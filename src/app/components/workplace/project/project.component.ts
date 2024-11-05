@@ -30,6 +30,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/legacy';
+import { ICreateTask } from 'src/app/interfaces/create-task.interface';
 
 @Component({
   selector: 'app-project',
@@ -123,6 +124,24 @@ export class ProjectComponent implements OnInit {
   onDeleteCategory(categoryId: string) {
     this.projectsService
       .removeCategory(this.project, categoryId)
+      .subscribe((project) => {
+        this.project = project;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  onAddTask(event: ICreateTask, categoryId: string) {
+    this.projectsService
+      .createNewTask(this.project, categoryId, event)
+      .subscribe((project) => {
+        this.project = project;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  onDeleteTask(event: string) {
+    this.projectsService
+      .removeTask(this.project, event)
       .subscribe((project) => {
         this.project = project;
         this.changeDetectorRef.detectChanges();

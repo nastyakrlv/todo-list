@@ -11,6 +11,8 @@
       [category]="category"
       [tasks]="getTasksByCategoryId(category.id)"
       (deleteCategory)="onDeleteCategory(category.id)"
+      (addTask)="onAddTask($event, category.id)"
+      (deleteTask)="onDeleteTask($event)"
     />
     }
     <button
@@ -34,7 +36,7 @@
       class="form"
     >
       <tui-input formControlName="name">
-        Название проекта
+        Название категории
         <input tuiTextfieldLegacy type="text" />
       </tui-input>
       <div class="error">
