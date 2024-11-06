@@ -33,6 +33,7 @@ import {
 import { type PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import { TuiDay } from '@taiga-ui/cdk';
 import { ICreateTask } from 'src/app/interfaces/create-task.interface';
+import { TaskComponent } from '../task/task.component';
 
 @Component({
   selector: 'app-category-card',
@@ -50,6 +51,7 @@ import { ICreateTask } from 'src/app/interfaces/create-task.interface';
     TuiInputModule,
     TuiInputDateModule,
     TuiTextfieldControllerModule,
+    TaskComponent,
   ],
   templateUrl: './category-card.component.html',
   styleUrl: './category-card.component.scss',
@@ -58,9 +60,11 @@ import { ICreateTask } from 'src/app/interfaces/create-task.interface';
 export class CategoryCardComponent {
   @Input() category: ICategory = <ICategory>{};
   @Input() tasks: ITask[] = [];
+  @Input() projectId = '';
 
   @Output() deleteCategory = new EventEmitter();
   @Output() addTask = new EventEmitter<ICreateTask>();
+  @Output() editTask = new EventEmitter<ITask>();
   @Output() deleteTask = new EventEmitter<string>();
 
   protected order = new Map();
@@ -99,6 +103,10 @@ export class CategoryCardComponent {
     this.newTaskForm.reset();
 
     this.addTask.emit(taskData);
+  }
+
+  onEditTask(event: ITask) {
+    this.editTask.emit(event);
   }
 
   private readonly dialogs = inject(TuiDialogService);

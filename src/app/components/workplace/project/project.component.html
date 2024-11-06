@@ -10,9 +10,11 @@
     <app-category-card
       [category]="category"
       [tasks]="getTasksByCategoryId(category.id)"
+      [projectId]="project.id"
       (deleteCategory)="onDeleteCategory(category.id)"
       (addTask)="onAddTask($event, category.id)"
       (deleteTask)="onDeleteTask($event)"
+      (editTask)="onEditTask($event)"
     />
     }
     <button

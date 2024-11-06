@@ -12,40 +12,13 @@
   <h2 tuiTitle class="title">{{ category.name }}</h2>
   <div class="tasks">
     @for (item of tasks; track item.id) {
-    <div class="task">
-      <div class="taskControls">
-        <button
-          class="control"
-          appearance="secondary-destructive"
-          iconStart="@tui.trash-2"
-          size="xs"
-          tuiIconButton
-          type="button"
-          [style.border-radius.%]="100"
-          (click)="onDeleteTaskClick(item.id)"
-        ></button>
-        <button
-          class="control"
-          appearance="secondary-destructive"
-          iconStart="@tui.square-pen"
-          size="xs"
-          tuiIconButton
-          type="button"
-          [style.border-radius.%]="100"
-        ></button>
-      </div>
-      <h5 class="name">{{ item.name }}</h5>
-      <tui-badge
-        size="l"
-        class="badge"
-        [style.background]="item.badge === 'Сделано' ? '#e5fdea' : '#faf0fb'"
-        [style.color]="item.badge === 'Сделано' ? '#7bdd8d' : '#ee88ac'"
-      >
-        {{ item.badge }}
-      </tui-badge>
-      <p class="description">{{ item.description }}</p>
-      <p class="date">{{ item.date }}</p>
-    </div>
+    <app-task
+      [task]="item"
+      [categoryName]="category.name"
+      [projectId]="projectId"
+      (deleteTask)="onDeleteTaskClick(item.id)"
+      (editTask)="onEditTask($event)"
+    ></app-task>
     }
   </div>
   <button

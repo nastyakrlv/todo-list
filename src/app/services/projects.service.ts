@@ -5,6 +5,7 @@ import { IProject } from '../interfaces/project.interface';
 import { AuthService } from './auth.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ICreateTask } from '../interfaces/create-task.interface';
+import { ICategory, ITask } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +64,14 @@ export class ProjectsService {
     return personalProjects$;
   }
 
+  getCategoriesByProjectId(projectId: string): Observable<ICategory[]> {
+    return this.httpClient.get<IProject>(this.apiUrl + `/${projectId}`).pipe(
+      map((project) => {
+        return project.categories;
+      })
+    );
+  }
+
   createNewCategory(project: IProject, name: string): Observable<IProject> {
     project.categories.push({
       id: uuidv4(),
@@ -116,6 +125,29 @@ export class ProjectsService {
       categoryId: categoryId,
       userId: userId,
     });
+
+    return this.httpClient
+      .put<IProject>(`${this.apiUrl}/${project.id}`, project)
+      .pipe(
+        map((project) => {
+          return project;
+        })
+      );
+  }
+
+  editTask(project: IProject, task: ITask): Observable<IProject> {
+    const editedTask = project.tasks.find(
+      (projectTask) => projectTask.id === task.id
+    );
+
+    if (editedTask) {
+      editedTask.name = task.name;
+      editedTask.description = task.description;
+      editedTask.date = task.date;
+      editedTask.badge = task.badge;
+      editedTask.categoryId = task.categoryId;
+      editedTask.userId = task.userId;
+    }
 
     return this.httpClient
       .put<IProject>(`${this.apiUrl}/${project.id}`, project)
