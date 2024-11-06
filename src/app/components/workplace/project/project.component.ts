@@ -147,4 +147,11 @@ export class ProjectComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       });
   }
+
+  onEditTask(event: ITask) {
+    this.projectsService.editTask(this.project, event).subscribe((project) => {
+      this.project = project;
+      this.changeDetectorRef.detectChanges();
+    });
+  }
 }
