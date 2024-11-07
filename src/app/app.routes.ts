@@ -8,9 +8,10 @@ import {
   ProfileComponent,
 } from './components';
 import { AppComponent } from './app.component';
-import { ProjectsComponent } from './components/workplace/projects/projects.component';
 import { workplaceGuard } from './guards/workplace.guard';
 import { authGuard } from './guards/auth.guard';
+import { SharedProjectsComponent } from './components/workplace/shared-projects/shared-projects.component';
+import { PersonalProjectsComponent } from './components/workplace/personal-projects/personal-projects.component';
 
 export const appRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: AppComponent },
@@ -38,10 +39,18 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'projects',
-        component: ProjectsComponent,
+        component: PersonalProjectsComponent,
       },
       {
         path: 'projects/:projectId',
+        component: ProjectComponent,
+      },
+      {
+        path: 'shared',
+        component: SharedProjectsComponent,
+      },
+      {
+        path: 'shared/:projectId',
         component: ProjectComponent,
       },
     ],

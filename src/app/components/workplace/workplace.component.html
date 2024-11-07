@@ -1,7 +1,9 @@
 <div class="main-page" [style.display]="'flex'">
   <aside [tuiNavigationAside]="expanded">
     <a iconStart="@tui.lock" tuiAsideItem [routerLink]="'projects'"> Личное </a>
-    <a iconStart="@tui.users" tuiAsideItem> Доступное мне </a>
+    <a iconStart="@tui.users" tuiAsideItem [routerLink]="'shared'">
+      Доступное мне
+    </a>
     <a iconStart="@tui.user" tuiAsideItem [routerLink]="['profile']">
       Профиль
     </a>

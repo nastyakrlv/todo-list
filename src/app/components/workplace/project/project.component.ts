@@ -73,7 +73,7 @@ export class ProjectComponent implements OnInit {
       .subscribe((project) => {
         this.project = project;
         this.role = this.projectsService.getCurrentUserRole(project);
-        this.project$.next(this.project);
+        this.changeDetectorRef.detectChanges();
       });
   }
 

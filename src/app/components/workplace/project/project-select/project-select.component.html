@@ -21,7 +21,7 @@
         routerLinkActive
         tuiOption
         [attr.aria-checked]="rla.isActive"
-        [routerLink]="'/workplace/projects/' + project.id"
+        [routerLink]="getRouterLink(project.id)"
         (click)="open = false"
       >
         {{ project.name }}
