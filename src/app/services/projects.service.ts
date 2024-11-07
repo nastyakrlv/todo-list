@@ -25,14 +25,14 @@ export class ProjectsService {
     return this.httpClient.get<IProject>(this.apiUrl + `/${id}`);
   }
 
-  createNewProject(name: string): Observable<IProject> {
+  createNewProject(name: string, projectType: string): Observable<IProject> {
     const userId = this.authService.getCurrentUserId();
 
     return this.httpClient
       .post<IProject>(this.apiUrl, {
         name: name,
         users: [{ id: userId, role: 'Администратор' }],
-        type: 'personal',
+        type: projectType,
       })
       .pipe(
         map((project) => {
@@ -62,6 +62,30 @@ export class ProjectsService {
     );
 
     return personalProjects$;
+  }
+
+  getSharedProjectsByCurrentUser(): Observable<IProject[]> {
+    const userId = this.authService.getCurrentUserId();
+
+    const personalProjects$ = this.projects$.pipe(
+      map((projects) => {
+        return projects.filter((project) => {
+          const user = project.users.find((user) => user.id === userId);
+
+          return user && project.type === 'shared';
+        });
+      })
+    );
+
+    return personalProjects$;
+  }
+
+  getProjectsByCurrentUser(projectType: string): Observable<IProject[]> {
+    if (projectType === 'shared') {
+      return this.getSharedProjectsByCurrentUser();
+    }
+
+    return this.getPersonalProjectsByCurrentUser();
   }
 
   getCategoriesByProjectId(projectId: string): Observable<ICategory[]> {

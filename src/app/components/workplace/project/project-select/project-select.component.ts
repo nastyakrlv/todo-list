@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   Input,
+  OnChanges,
   OnInit,
 } from '@angular/core';
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
@@ -32,21 +33,28 @@ import { IProject } from 'src/app/interfaces/project.interface';
   styleUrl: './project-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectSelectComponent implements OnInit {
+export class ProjectSelectComponent implements OnChanges {
   private readonly projectsService = inject(ProjectsService);
 
   @Input() currentProjectName = '';
+  @Input() projectType = '';
 
   protected open = false;
   protected projects: IProject[] = [];
 
-  ngOnInit() {
+  ngOnChanges() {
     this.loadProjects();
+  }
+
+  protected getRouterLink(projectId: string): string {
+    return `/workplace/${
+      this.projectType === 'shared' ? 'shared' : 'projects'
+    }/${projectId}`;
   }
 
   private loadProjects(): void {
     this.projectsService
-      .getPersonalProjectsByCurrentUser()
+      .getProjectsByCurrentUser(this.projectType)
       .pipe(take(1))
       .subscribe((projects) => {
         this.projects = projects;

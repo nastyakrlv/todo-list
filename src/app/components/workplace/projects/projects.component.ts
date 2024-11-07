@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  Input,
   OnInit,
 } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
@@ -43,6 +44,8 @@ import { TuiInputModule } from '@taiga-ui/legacy';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsComponent implements OnInit {
+  @Input() projectType = '';
+
   private changeDetectorRef = inject(ChangeDetectorRef);
   private readonly projectsService = inject(ProjectsService);
 
@@ -54,7 +57,7 @@ export class ProjectsComponent implements OnInit {
 
   private loadProjects(): void {
     this.projectsService
-      .getPersonalProjectsByCurrentUser()
+      .getProjectsByCurrentUser(this.projectType)
       .pipe(take(1))
       .subscribe((projects) => {
         this.projects = projects;
@@ -76,7 +79,7 @@ export class ProjectsComponent implements OnInit {
     };
 
     this.projectsService
-      .createNewProject(projectData.name)
+      .createNewProject(projectData.name, this.projectType)
       .subscribe((project) => {
         this.projects.push(project);
         this.changeDetectorRef.detectChanges();
