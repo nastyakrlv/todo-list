@@ -15,10 +15,12 @@ import { ProjectSelectComponent } from './project-select/project-select.componen
 import { TasksService } from 'src/app/services/tasks.service';
 import { ITask } from 'src/app/interfaces/task.interface';
 import {
+  TuiAutoColorPipe,
   TuiButton,
   TuiDialogContext,
   TuiDialogService,
   TuiIcon,
+  TuiInitialsPipe,
 } from '@taiga-ui/core';
 import { type PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import {
@@ -31,6 +33,10 @@ import {
 } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/legacy';
 import { ICreateTask } from 'src/app/interfaces/create-task.interface';
+import { UsersService } from 'src/app/services/users.service';
+import { IUserName } from 'src/app/interfaces/user-name.interface';
+import { TuiAvatar, TuiAvatarStack } from '@taiga-ui/kit';
+import { UsersCardComponent } from './users-card/users-card.component';
 
 @Component({
   selector: 'app-project',
@@ -43,6 +49,11 @@ import { ICreateTask } from 'src/app/interfaces/create-task.interface';
     TuiButton,
     ReactiveFormsModule,
     TuiInputModule,
+    TuiAutoColorPipe,
+    TuiAvatarStack,
+    TuiAvatar,
+    TuiInitialsPipe,
+    UsersCardComponent,
   ],
   templateUrl: './project.component.html',
   styleUrl: './project.component.scss',
@@ -51,6 +62,7 @@ import { ICreateTask } from 'src/app/interfaces/create-task.interface';
 export class ProjectComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly usersService = inject(UsersService);
   private readonly projectsService = inject(ProjectsService);
   private readonly tasksService = inject(TasksService);
 
@@ -58,6 +70,7 @@ export class ProjectComponent implements OnInit {
   projectId = '';
   project = <IProject>{};
   project$ = new BehaviorSubject(this.project);
+  users: IUserName[] = [];
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
@@ -74,7 +87,19 @@ export class ProjectComponent implements OnInit {
         this.project = project;
         this.role = this.projectsService.getCurrentUserRole(project);
         this.changeDetectorRef.detectChanges();
+        this.mapUsers();
       });
+  }
+
+  private mapUsers(): void {
+    const arr: IUserName[] = [];
+    this.project.users.forEach((user) => {
+      this.usersService.getUserById(user.id).subscribe((userInfo) => {
+        arr.push(userInfo);
+        this.users = [...arr];
+        this.changeDetectorRef.detectChanges();
+      });
+    });
   }
 
   public getTasksByCategoryId(id: string): ITask[] {
@@ -153,5 +178,23 @@ export class ProjectComponent implements OnInit {
       this.project = project;
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  addUser(event: string) {
+    this.projectsService.addUser(this.project, event).subscribe((project) => {
+      this.project = project;
+      this.mapUsers();
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  deleteUser(event: string) {
+    this.projectsService
+      .deleteUser(this.project, event)
+      .subscribe((project) => {
+        this.project = project;
+        this.mapUsers();
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }

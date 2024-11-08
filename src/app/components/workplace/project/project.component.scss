@@ -25,7 +25,20 @@
   padding: 35px 0;
 }
 
-.roleCard {
+.info {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.card {
   background-color: #f1f5f9;
   color: #7a7c7f;
   width: 330px;

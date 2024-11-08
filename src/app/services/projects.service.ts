@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
 import { AuthService } from './auth.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ICreateTask } from '../interfaces/create-task.interface';
 import { ICategory, ITask } from '../interfaces';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class ProjectsService {
   private apiUrl = 'https://66fd80996993693089556892.mockapi.io/api/projects';
 
   private authService = inject(AuthService);
+  private usersService = inject(UsersService);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -196,5 +198,45 @@ export class ProjectsService {
           return project;
         })
       );
+  }
+
+  addUser(project: IProject, userEmail: string): Observable<IProject> {
+    return this.usersService.getUserByEmail(userEmail).pipe(
+      switchMap((user) => {
+        if (user.id) {
+          project.users.push({
+            id: user.id,
+            role: 'Редактор',
+          });
+        }
+        return this.httpClient
+          .put<IProject>(`${this.apiUrl}/${project.id}`, project)
+          .pipe(
+            map((project) => {
+              return project;
+            })
+          );
+      })
+    );
+  }
+
+  deleteUser(project: IProject, userEmail: string): Observable<IProject> {
+    return this.usersService.getUserByEmail(userEmail).pipe(
+      switchMap((user) => {
+        const idx = project.users.findIndex((u) => u.id === user.id);
+
+        if (idx !== -1) {
+          project.users.splice(idx, 1);
+        }
+
+        return this.httpClient
+          .put<IProject>(`${this.apiUrl}/${project.id}`, project)
+          .pipe(
+            map((project) => {
+              return project;
+            })
+          );
+      })
+    );
   }
 }

@@ -98,8 +98,6 @@ export class CategoryCardComponent {
       date: this.newTaskForm.get('date')?.value.toJSON(),
     };
 
-    console.log(taskData);
-
     this.newTaskForm.reset();
 
     this.addTask.emit(taskData);
