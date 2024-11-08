@@ -3,9 +3,18 @@
   [projectType]="project.type"
 />
 <div class="wrapper">
-  <div class="roleCard" tuiAppearance="neutral" tuiCardMedium>
-    <h2 tuiTitle>Роль в проекте {{ project.name }}</h2>
-    <p class="role" tuiSubtitle>{{ role }}</p>
+  <div class="info">
+    <div class="card" tuiAppearance="neutral" tuiCardMedium>
+      <h2 tuiTitle>Роль в проекте {{ project.name }}</h2>
+      <p class="role" tuiSubtitle>{{ role }}</p>
+    </div>
+    @if(project.type === 'shared') {
+    <app-users-card
+      [users]="users"
+      (addUserInProject)="addUser($event)"
+      (deleteUserInProject)="deleteUser($event)"
+    ></app-users-card>
+    }
   </div>
 
   <div class="categories">

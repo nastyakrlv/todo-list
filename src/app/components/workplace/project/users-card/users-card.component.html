@@ -1,0 +1,78 @@
+<div class="card" tuiAppearance="neutral" tuiCardMedium>
+  <div class="head">
+    <h2 tuiTitle>Пользователи</h2>
+    <button
+      appearance="secondary-destructive"
+      iconStart="@tui.plus"
+      size="s"
+      tuiIconButton
+      type="button"
+      (click)="showDialog(addUserDialog)"
+    ></button>
+  </div>
+  <tui-avatar-stack
+    class="tui-space_vertical-4 users"
+    direction="right"
+    (click)="showDialog(usersList)"
+  >
+    @for(user of users.slice(0, 10); track user.email) {
+    <tui-avatar
+      size="s"
+      [src]="user.name | tuiInitials"
+      [style.background]="user.name | tuiAutoColor"
+    />
+    } @if (users.length > 10) {
+    <tui-avatar size="s"> {{ users.length - 10 }}+ </tui-avatar>
+    }
+  </tui-avatar-stack>
+</div>
+
+<ng-template #addUserDialog let-observer>
+  <h2>Добавить пользователя по почте</h2>
+  <form
+    [formGroup]="addUserForm"
+    (ngSubmit)="addUser(); observer.complete()"
+    class="form"
+  >
+    <tui-input formControlName="email">
+      Почта
+      <input tuiTextfieldLegacy type="text" />
+    </tui-input>
+    <div class="error">
+      <small *ngIf="addUserForm.errors?.['match']"
+        >Пользователь с такой почтой уже добавлен в проект</small
+      >
+    </div>
+    <button tuiButton type="submit" [disabled]="addUserForm.invalid">
+      Добавить
+    </button>
+  </form>
+</ng-template>
+
+<ng-template #usersList let-observer>
+  <h3>Пользователи, у которых есть доступ к проекту</h3>
+  <div class="usersList">
+    @for(user of users; track user.email) {
+    <div class="user">
+      <div class="info">
+        <tui-avatar
+          size="s"
+          [src]="user.name | tuiInitials"
+          [style.background]="user.name | tuiAutoColor"
+        />
+        <p>{{ user.name }} ({{ user.email }})</p>
+      </div>
+      <button
+        class="control"
+        appearance="secondary-destructive"
+        iconStart="@tui.trash-2"
+        size="s"
+        tuiIconButton
+        type="button"
+        [style.border-radius.%]="100"
+        (click)="onUserDelete(user.email)"
+      ></button>
+    </div>
+    }
+  </div>
+</ng-template>
