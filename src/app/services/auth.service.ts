@@ -53,7 +53,21 @@ export class AuthService {
     );
   }
 
-  logout() {
+  changePassword(password: string): Observable<IUser> {
+    const user: IUser = JSON.parse(localStorage.getItem('user') || '');
+    user.password = password;
+
+    return this.http.put<IUser>(`${this.apiUrl}/users/${user.id}`, user).pipe(
+      map((user) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      }))
+    );
+  }
+
+  logout(): void {
     localStorage.removeItem('user');
   }
 
@@ -73,10 +87,6 @@ export class AuthService {
   getCurrentUserId(): string {
     const user = JSON.parse(localStorage.getItem('user') || '');
 
-    if (user) {
-      return user.id;
-    }
-
-    return '';
+    return user ? user.id : '';
   }
 }
