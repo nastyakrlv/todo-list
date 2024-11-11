@@ -1,7 +1,9 @@
-<div class="main-page" [style.display]="'flex'">
+<div class="main-page" *ngIf="!isMobile">
   <aside [tuiNavigationAside]="expanded">
-    <a iconStart="@tui.lock" tuiAsideItem [routerLink]="'projects'"> Личное </a>
-    <a iconStart="@tui.users" tuiAsideItem [routerLink]="'shared'">
+    <a iconStart="@tui.lock" tuiAsideItem [routerLink]="['projects']">
+      Личное
+    </a>
+    <a iconStart="@tui.users" tuiAsideItem [routerLink]="['shared']">
       Доступное мне
     </a>
     <a iconStart="@tui.user" tuiAsideItem [routerLink]="['profile']">
@@ -21,4 +23,34 @@
   <main tuiNavigationMain>
     <router-outlet></router-outlet>
   </main>
+</div>
+
+<div class="main-page-mobile" *ngIf="isMobile">
+  <router-outlet></router-outlet>
+  <nav tuiTabBar>
+    <a
+      icon="@tui.lock"
+      tuiTabBarItem
+      routerLinkActive
+      [routerLink]="['projects']"
+    >
+      Личное
+    </a>
+    <a
+      icon="@tui.users"
+      tuiTabBarItem
+      routerLinkActive
+      [routerLink]="['shared']"
+    >
+      Доступное мне
+    </a>
+    <a
+      icon="@tui.user"
+      tuiTabBarItem
+      routerLinkActive
+      [routerLink]="['profile']"
+    >
+      Профиль
+    </a>
+  </nav>
 </div>
