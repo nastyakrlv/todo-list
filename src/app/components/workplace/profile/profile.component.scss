@@ -1,6 +1,7 @@
 @import '../../../../colors.scss';
 
 :host {
+  flex: 1;
   height: 100%;
   display: block;
   background-color: $background-color-yellow;
