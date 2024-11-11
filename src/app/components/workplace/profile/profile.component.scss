@@ -18,3 +18,23 @@ div {
     width: 80%;
   }
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+
+  tui-input {
+    width: 100%;
+  }
+
+  .error {
+    height: 20px;
+  }
+
+  small {
+    color: red;
+  }
+}

@@ -1,4 +1,31 @@
 <div>
-  <button tuiButton>Сменить пароль</button>
+  <button tuiButton (click)="showDialog(template)">Сменить пароль</button>
   <button tuiButton appearance="primary" (click)="logout()">Выйти</button>
 </div>
+
+<ng-template #template let-observer>
+  <h2>Сменить пароль</h2>
+  <form
+    [formGroup]="passwordForm"
+    (ngSubmit)="changePassword(); observer.complete()"
+    class="form"
+  >
+    <tui-input formControlName="password">
+      Введите пароль
+      <input tuiTextfieldLegacy type="password" />
+    </tui-input>
+
+    <tui-input formControlName="confirmPassword">
+      Подтвердите пароль
+      <input tuiTextfieldLegacy type="password" />
+    </tui-input>
+    <div class="error">
+      <small *ngIf="passwordForm.errors?.['mismatch']"
+        >Пароли должны совпадать</small
+      >
+    </div>
+    <button tuiButton type="submit" [disabled]="passwordForm.invalid">
+      Добавить
+    </button>
+  </form>
+</ng-template>
