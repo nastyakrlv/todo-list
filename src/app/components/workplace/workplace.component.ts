@@ -18,7 +18,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    TuiTabBar
+    TuiTabBar,
   ],
   templateUrl: './workplace.component.html',
   styleUrl: './workplace.component.scss',
