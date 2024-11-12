@@ -1,4 +1,5 @@
 <div class="task">
+  @if (isAdmin) {
   <div class="taskControls">
     <button
       class="control"
@@ -21,6 +22,7 @@
       (click)="showDialog(editTaskFormTemplate)"
     ></button>
   </div>
+  }
   <h5 class="name">{{ task.name }}</h5>
   <tui-badge
     size="l"

@@ -58,6 +58,7 @@ export class TaskComponent implements OnInit, OnChanges {
   @Input() task: ITask = <ITask>{};
   @Input() categoryName = '';
   @Input() projectId = '';
+  @Input() isAdmin = false;
 
   @Output() editTask = new EventEmitter<ITask>();
   @Output() deleteTask = new EventEmitter<string>();

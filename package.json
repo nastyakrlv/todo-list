@@ -7,8 +7,8 @@
     "build": "nx build",
     "test": "nx test",
     "format": "prettier --write src/app/**/*.{scss,ts,html}",
-    "lint": "eslint 'src/**/*.{js,ts}'",
-    "lint:fix": "eslint 'src/**/*.{js,ts}' --fix"
+    "lint": "eslint src/**/*.{js,ts}",
+    "lint:fix": "eslint src/**/*.{js,ts} --fix"
   },
   "private": true,
   "dependencies": {

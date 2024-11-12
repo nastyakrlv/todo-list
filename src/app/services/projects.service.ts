@@ -27,6 +27,10 @@ export class ProjectsService {
     return this.httpClient.get<IProject>(this.apiUrl + `/${id}`);
   }
 
+  deleteProjectById(id: string): Observable<IProject> {
+    return this.httpClient.delete<IProject>(this.apiUrl + `/${id}`);
+  }
+
   createNewProject(name: string, projectType: string): Observable<IProject> {
     const userId = this.authService.getCurrentUserId();
 

@@ -1,14 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { IUser } from '../interfaces';
+import { IProject, IUser } from '../interfaces';
 import { IUserName } from '../interfaces/user-name.interface';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   private apiUrl = 'https://66fd80996993693089556892.mockapi.io/api/users';
+
+  private authService = inject(AuthService);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -40,5 +43,21 @@ export class UsersService {
         }
       })
     );
+  }
+
+  curUserIsAdmin(project: IProject): boolean {
+    const userId = this.authService.getCurrentUserId();
+
+    return this.userIsAdmin(userId, project);
+  }
+
+  userIsAdmin(userId: string, project: IProject): boolean {
+    const user = project.users.find((u) => u.id === userId);
+
+    if (user) {
+      return user.role === 'Администратор';
+    }
+
+    return false;
   }
 }

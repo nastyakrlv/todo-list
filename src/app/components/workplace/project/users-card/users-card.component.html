@@ -1,6 +1,7 @@
 <div class="card" tuiAppearance="neutral" tuiCardMedium>
   <div class="head">
     <h2 tuiTitle>Пользователи</h2>
+    @if (isAdmin) {
     <button
       appearance="secondary-destructive"
       iconStart="@tui.plus"
@@ -9,6 +10,7 @@
       type="button"
       (click)="showDialog(addUserDialog)"
     ></button>
+    }
   </div>
   <tui-avatar-stack
     class="tui-space_vertical-4 users"
@@ -62,6 +64,7 @@
         />
         <p>{{ user.name }} ({{ user.email }})</p>
       </div>
+      @if (isAdmin && user.role === 'Редактор') {
       <button
         class="control"
         appearance="secondary-destructive"
@@ -72,6 +75,7 @@
         [style.border-radius.%]="100"
         (click)="onUserDelete(user.email)"
       ></button>
+      }
     </div>
     }
   </div>
