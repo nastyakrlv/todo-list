@@ -18,11 +18,21 @@
     rgb(252, 253, 255) 98%,
     rgb(247, 247, 247)
   );
-  padding: 0 75px;
+  padding: 0 35px;
+}
+
+.loader {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 }
 
 .wrapper {
-  padding: 35px 0;
+  padding: 20px 0;
+  height: 100%;
 }
 
 .info {
@@ -44,12 +54,11 @@
   width: 330px;
   height: 120px;
   border-radius: 29px;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
   padding: 18px 26px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 8px;
 
   .role {
     color: #a7aaad;
@@ -58,9 +67,27 @@
 }
 
 .categories {
+  height: 70%;
   display: flex;
   flex-direction: row;
   gap: 20px;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: gainsboro;
+    border: 6px solid transparent;
+    border-radius: 8px;
+    background-clip: padding-box;
+    transition: background-color 0.3s ease;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+  }
 }
 
 .categoryButton {

@@ -6,10 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryCardComponent } from './category-card/category-card.component';
 import { ProjectsService } from 'src/app/services/projects.service';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, finalize, take } from 'rxjs';
 import { IProject } from 'src/app/interfaces/project.interface';
 import { ProjectSelectComponent } from './project-select/project-select.component';
 import { TasksService } from 'src/app/services/tasks.service';
@@ -21,6 +21,7 @@ import {
   TuiDialogService,
   TuiIcon,
   TuiInitialsPipe,
+  TuiLoader,
 } from '@taiga-ui/core';
 import { type PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import {
@@ -54,6 +55,7 @@ import { UsersCardComponent } from './users-card/users-card.component';
     TuiAvatar,
     TuiInitialsPipe,
     UsersCardComponent,
+    TuiLoader,
   ],
   templateUrl: './project.component.html',
   styleUrl: './project.component.scss',
@@ -65,15 +67,19 @@ export class ProjectComponent implements OnInit {
   private readonly usersService = inject(UsersService);
   private readonly projectsService = inject(ProjectsService);
   private readonly tasksService = inject(TasksService);
+  private readonly router = inject(Router);
 
   role = '';
   projectId = '';
   project = <IProject>{};
   project$ = new BehaviorSubject(this.project);
   users: IUserName[] = [];
+  isAdmin = false;
+  isLoading = true;
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
+      this.isLoading = true;
       this.projectId = params['projectId'];
       this.loadProject();
     });
@@ -82,12 +88,16 @@ export class ProjectComponent implements OnInit {
   private loadProject(): void {
     this.projectsService
       .getProjectById$(this.projectId)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        finalize(() => (this.isLoading = false))
+      )
       .subscribe((project) => {
         this.project = project;
         this.role = this.projectsService.getCurrentUserRole(project);
         this.changeDetectorRef.detectChanges();
         this.mapUsers();
+        this.getCurUserRole();
       });
   }
 
@@ -95,11 +105,18 @@ export class ProjectComponent implements OnInit {
     const arr: IUserName[] = [];
     this.project.users.forEach((user) => {
       this.usersService.getUserById(user.id).subscribe((userInfo) => {
-        arr.push(userInfo);
+        arr.push({
+          ...userInfo,
+          role: user.role,
+        });
         this.users = [...arr];
         this.changeDetectorRef.detectChanges();
       });
     });
+  }
+
+  private getCurUserRole(): void {
+    this.isAdmin = this.usersService.curUserIsAdmin(this.project);
   }
 
   public getTasksByCategoryId(id: string): ITask[] {
@@ -196,5 +213,11 @@ export class ProjectComponent implements OnInit {
         this.mapUsers();
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  onDeleteProject() {
+    this.projectsService
+      .deleteProjectById(this.projectId)
+      .subscribe(() => this.router.navigate(['workplace/projects']));
   }
 }

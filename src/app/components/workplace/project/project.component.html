@@ -2,18 +2,30 @@
   [currentProjectName]="project.name"
   [projectType]="project.type"
 />
-<div class="wrapper">
+<tui-loader *ngIf="isLoading" size="xxl" class="loader" />
+<div *ngIf="!isLoading" class="wrapper">
   <div class="info">
     <div class="card" tuiAppearance="neutral" tuiCardMedium>
-      <h2 tuiTitle>Роль в проекте {{ project.name }}</h2>
+      <h2 tuiTitle>Роль в проекте</h2>
       <p class="role" tuiSubtitle>{{ role }}</p>
     </div>
     @if(project.type === 'shared') {
     <app-users-card
       [users]="users"
+      [isAdmin]="isAdmin"
       (addUserInProject)="addUser($event)"
       (deleteUserInProject)="deleteUser($event)"
     ></app-users-card>
+    } @if (isAdmin) {
+    <button
+      appearance="secondary"
+      size="s"
+      tuiButton
+      type="button"
+      (click)="onDeleteProject()"
+    >
+      Удалить проект
+    </button>
     }
   </div>
 
@@ -23,12 +35,13 @@
       [category]="category"
       [tasks]="getTasksByCategoryId(category.id)"
       [projectId]="project.id"
+      [isAdmin]="isAdmin"
       (deleteCategory)="onDeleteCategory(category.id)"
       (addTask)="onAddTask($event, category.id)"
       (deleteTask)="onDeleteTask($event)"
       (editTask)="onEditTask($event)"
     />
-    }
+    } @if (isAdmin) {
     <button
       class="categoryButton"
       appearance="secondary"
@@ -40,6 +53,7 @@
       <tui-icon icon="@tui.plus" [style.height.rem]="1" />
       Добавить категорию
     </button>
+    }
   </div>
 
   <ng-template #template let-observer>

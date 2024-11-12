@@ -1,4 +1,5 @@
 <div class="categoryCard" tuiCardLarge tuiAppearance="neutral">
+  @if (isAdmin) {
   <button
     class="categoryDeleteButton"
     appearance="secondary-destructive"
@@ -9,6 +10,7 @@
     [style.border-radius.%]="100"
     (click)="onDeleteCategoryClick()"
   ></button>
+  }
   <h2 tuiTitle class="title">{{ category.name }}</h2>
   <div class="tasks">
     @for (item of tasks; track item.id) {
@@ -16,11 +18,13 @@
       [task]="item"
       [categoryName]="category.name"
       [projectId]="projectId"
+      [isAdmin]="isAdmin"
       (deleteTask)="onDeleteTaskClick(item.id)"
       (editTask)="onEditTask($event)"
     ></app-task>
     }
   </div>
+  @if (isAdmin) {
   <button
     appearance="secondary"
     size="m"
@@ -31,6 +35,7 @@
     <tui-icon icon="@tui.plus" [style.height.rem]="1" />
     Добавить задачу
   </button>
+  }
 
   <ng-template #template let-observer>
     <h2>Добавить задачу</h2>

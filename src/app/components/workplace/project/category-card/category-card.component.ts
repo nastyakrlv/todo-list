@@ -61,6 +61,7 @@ export class CategoryCardComponent {
   @Input() category: ICategory = <ICategory>{};
   @Input() tasks: ITask[] = [];
   @Input() projectId = '';
+  @Input() isAdmin = false;
 
   @Output() deleteCategory = new EventEmitter();
   @Output() addTask = new EventEmitter<ICreateTask>();
