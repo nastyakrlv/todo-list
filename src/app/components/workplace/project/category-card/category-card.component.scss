@@ -1,4 +1,5 @@
 @import '../../../../../colors.scss';
+@import '../../../../../constants.scss';
 
 .categoryCard {
   background-color: $background-color-yellow;
@@ -37,65 +38,8 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  height: 200%;
+  height: 100%;
   overflow-x: auto;
-}
-
-.task {
-  position: relative;
-  padding: 8px 15px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  gap: 6px;
-
-  .taskControls {
-    display: none;
-    position: absolute;
-    right: 7px;
-
-    .control {
-      color: #134563;
-      transition: scale 0.2s ease-in-out;
-    }
-
-    .control:hover {
-      scale: 1.2;
-    }
-  }
-
-  &:hover {
-    .taskControls {
-      display: block;
-    }
-  }
-
-  .name {
-    max-width: 80%;
-    margin: 8px 0;
-    color: #787779;
-    line-height: 1.3;
-  }
-
-  .badge {
-    font-size: 12px;
-    font-weight: 500;
-  }
-
-  .description {
-    margin: 4px 0;
-    font-size: 11px;
-    color: #aeaeae;
-  }
-
-  .date {
-    margin: 0;
-    font-size: 11px;
-    color: #d3d3d3;
-  }
 }
 
 .form {
@@ -107,4 +51,14 @@
 h1 {
   margin: 0;
   padding: 30px 0;
+}
+
+@media screen and (max-width: $mobile) {
+  .categoryCard {
+    width: 100%;
+
+    .categoryDeleteButton {
+      display: inline-flex;
+    }
+  }
 }

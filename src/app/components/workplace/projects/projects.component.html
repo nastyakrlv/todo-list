@@ -1,5 +1,7 @@
 <div class="head">
-  <h1 class="title">Мои проекты</h1>
+  <h1 class="title">
+    {{ projectType === 'personal' ? 'Личное' : 'Доступное мне' }}
+  </h1>
   <button
     appearance="secondary-destructive"
     iconStart="@tui.plus"

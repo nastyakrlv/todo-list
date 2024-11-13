@@ -3,7 +3,7 @@ import {
   Component,
   inject,
   Input,
-  OnChanges
+  OnChanges,
 } from '@angular/core';
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { TuiChevron } from '@taiga-ui/kit';
