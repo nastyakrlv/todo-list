@@ -1,0 +1,32 @@
+image: node:18
+
+stages:
+  - install
+  - build
+  - validate
+
+install:
+  stage: install
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+
+build:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+      paths:
+        - build/
+  dependencies:
+    - install
+
+validate:
+  stage: validate
+  script:
+    - npm run validate
+  dependencies:
+    - install
+    - build
