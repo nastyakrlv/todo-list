@@ -1,0 +1,32 @@
+image: node:18
+
+stages:
+  - install
+  - lint
+  - build
+
+install:
+  stage: install
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+
+lint:
+  stage: lint
+  script:
+    - npm run lint
+  dependencies:
+    - install
+      
+
+build:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+      paths:
+        - build/
+  dependencies:
+    - install
