@@ -1,3 +1,11 @@
+@import '../../../../constants.scss';
+
 :host {
   flex: 1;
+}
+
+@media screen and (max-width: $mobile) {
+  :host {
+    height: calc(100% - 56px);
+  }
 }

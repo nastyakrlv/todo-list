@@ -4,7 +4,7 @@ import {
   EventEmitter,
   inject,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -47,7 +47,6 @@ import { type PolymorpheusContent } from '@taiga-ui/polymorpheus';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersCardComponent {
-
   @Input() users: IUserName[] = [];
   @Input() isAdmin = false;
 

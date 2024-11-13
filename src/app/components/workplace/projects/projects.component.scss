@@ -1,3 +1,5 @@
+@import '../../../../constants.scss';
+
 :host {
   height: 100%;
   display: block;
@@ -18,6 +20,7 @@
     rgb(247, 247, 247)
   );
   padding: 0 35px;
+  overflow-y: auto;
 }
 
 .head {
@@ -72,4 +75,10 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+@media screen and (max-width: $mobile) {
+  :host {
+    padding: 0 16px;
+  }
 }
