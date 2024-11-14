@@ -6,12 +6,13 @@ import {
   ProjectComponent,
   WorkplaceComponent,
   ProfileComponent,
+  TaskDetailsComponent,
+  SharedProjectsComponent,
+  PersonalProjectsComponent,
 } from './components';
 import { AppComponent } from './app.component';
 import { workplaceGuard } from './guards/workplace.guard';
 import { authGuard } from './guards/auth.guard';
-import { SharedProjectsComponent } from './components/workplace/shared-projects/shared-projects.component';
-import { PersonalProjectsComponent } from './components/workplace/personal-projects/personal-projects.component';
 
 export const appRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: AppComponent },
@@ -46,12 +47,20 @@ export const appRoutes: Route[] = [
         component: ProjectComponent,
       },
       {
+        path: 'projects/:projectId/:taskId',
+        component: TaskDetailsComponent,
+      },
+      {
         path: 'shared',
         component: SharedProjectsComponent,
       },
       {
         path: 'shared/:projectId',
         component: ProjectComponent,
+      },
+      {
+        path: 'shared/:projectId/:taskId',
+        component: TaskDetailsComponent,
       },
     ],
   },

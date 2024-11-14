@@ -33,6 +33,7 @@ import {
 import { type PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import { TuiDay } from '@taiga-ui/cdk';
 import { ProjectsService } from 'src/app/services';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-task',
@@ -49,6 +50,7 @@ import { ProjectsService } from 'src/app/services';
     TuiDataList,
     TuiDataListWrapper,
     TuiSelectModule,
+    RouterLink,
   ],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss',

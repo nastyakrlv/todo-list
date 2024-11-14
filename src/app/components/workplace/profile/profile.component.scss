@@ -4,7 +4,21 @@
   flex: 1;
   height: 100%;
   display: block;
-  background-color: $background-color-yellow;
+  background: -webkit-linear-gradient(
+    270deg,
+    rgb(252, 253, 255) 98%,
+    rgb(247, 247, 247)
+  );
+  background: -moz-linear-gradient(
+    270deg,
+    rgb(252, 253, 255) 98%,
+    rgb(247, 247, 247)
+  );
+  background: linear-gradient(
+    270deg,
+    rgb(252, 253, 255) 98%,
+    rgb(247, 247, 247)
+  );
 }
 
 div {

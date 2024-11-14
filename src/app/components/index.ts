@@ -5,3 +5,6 @@ export * from './workplace/project/project.component';
 export * from './workplace/projects/projects.component';
 export * from './workplace/workplace.component';
 export * from './workplace/profile/profile.component';
+export * from './workplace/task/task.component';
+export * from './workplace/shared-projects/shared-projects.component';
+export * from './workplace/personal-projects/personal-projects.component';

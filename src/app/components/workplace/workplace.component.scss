@@ -2,6 +2,7 @@
 
 :host {
   height: 100%;
+  display: block;
 }
 
 .main-page {
@@ -19,6 +20,10 @@
 
     a {
       color: #a9a9f2 !important;
+
+      &._active {
+        background: #f0f0fd !important;
+      }
 
       &:hover {
         background: #f0f0fd !important;

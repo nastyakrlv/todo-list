@@ -1,0 +1,82 @@
+@import '../../../../colors.scss';
+
+:host {
+  flex: 1;
+  height: 100%;
+  display: block;
+  background: -webkit-linear-gradient(
+    270deg,
+    rgb(252, 253, 255) 98%,
+    rgb(247, 247, 247)
+  );
+  background: -moz-linear-gradient(
+    270deg,
+    rgb(252, 253, 255) 98%,
+    rgb(247, 247, 247)
+  );
+  background: linear-gradient(
+    270deg,
+    rgb(252, 253, 255) 98%,
+    rgb(247, 247, 247)
+  );
+}
+
+.loader {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .task-container {
+    background-color: $background-color-yellow;
+    border-radius: 29px;
+    padding: 20px;
+    width: 300px;
+    box-sizing: border-box;
+
+    .task {
+      position: relative;
+      padding: 8px 15px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+      gap: 6px;
+
+      .name {
+        max-width: 80%;
+        margin: 8px 0;
+        color: #787779;
+        font-size: 1em;
+      }
+
+      .badge {
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .description {
+        margin: 4px 0;
+        font-size: 11px;
+        color: #aeaeae;
+      }
+
+      .date {
+        margin: 0;
+        font-size: 11px;
+        color: #d3d3d3;
+      }
+    }
+  }
+}

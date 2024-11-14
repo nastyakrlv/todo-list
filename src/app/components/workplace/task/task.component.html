@@ -1,0 +1,18 @@
+<tui-loader *ngIf="isLoading" size="xxl" class="loader" />
+<div class="container">
+  <div class="task-container" *ngIf="!isLoading">
+    <div class="task">
+      <h5 class="name">{{ task?.name }}</h5>
+      <tui-badge
+        size="l"
+        class="badge"
+        [style.background]="task?.badge === 'Сделано' ? '#e5fdea' : '#faf0fb'"
+        [style.color]="task?.badge === 'Сделано' ? '#7bdd8d' : '#ee88ac'"
+      >
+        {{ task?.badge }}
+      </tui-badge>
+      <p class="description">{{ task?.description }}</p>
+      <p class="date">{{ task?.date }}</p>
+    </div>
+  </div>
+</div>
