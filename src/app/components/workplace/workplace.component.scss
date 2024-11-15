@@ -49,13 +49,11 @@
 }
 
 .main-page-mobile {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  height: 100%;
 
   nav {
-    position: sticky;
+    position: fixed;
+    width: 100%;
     bottom: 0;
     z-index: 100;
   }

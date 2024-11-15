@@ -1,7 +1,7 @@
 @import '../../../../colors.scss';
+@import '../../../../constants.scss';
 
 :host {
-  flex: 1;
   height: 100%;
   display: block;
   background: -webkit-linear-gradient(
@@ -19,6 +19,10 @@
     rgb(252, 253, 255) 98%,
     rgb(247, 247, 247)
   );
+
+  @media screen and (max-width: $mobile) {
+    height: calc(100% - 56px);
+  }
 }
 
 .profile-container {
