@@ -61,6 +61,7 @@ export class TaskComponent implements OnInit, OnChanges {
   @Input() categoryName = '';
   @Input() projectId = '';
   @Input() isAdmin = false;
+  @Input() routeClick = true;
 
   @Output() editTask = new EventEmitter<ITask>();
   @Output() deleteTask = new EventEmitter<string>();

@@ -27,6 +27,7 @@ import { TuiInputModule } from '@taiga-ui/legacy';
 })
 export class ProfileComponent {
   passwordForm: FormGroup;
+  nameForm: FormGroup;
 
   constructor(
     private authService: AuthService,
@@ -40,6 +41,12 @@ export class ProfileComponent {
         confirmPassword: new FormControl('', Validators.required),
       },
       { validators: this.passwordMatchValidator }
+    );
+
+    this.nameForm = new FormGroup(
+      {
+        name: new FormControl('', Validators.required),
+      }
     );
   }
 
@@ -59,6 +66,21 @@ export class ProfileComponent {
 
     this.authService
       .changePassword(this.passwordForm.get('password')?.value)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (user: IUser) => {
+          this.authService.saveUser(user);
+        },
+      });
+  }
+
+  changeName(): void {
+    if (this.nameForm.invalid) {
+      return;
+    }
+
+    this.authService
+      .changeName(this.nameForm.get('name')?.value)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (user: IUser) => {

@@ -23,7 +23,8 @@
     ></button>
   </div>
   }
-  <h5 class="name" [routerLink]="[task.id]">{{ task.name }}</h5>
+  <h5 class="name" *ngIf="routeClick" [routerLink]="[task.id]" [ngClass]="{'cursor-pointer': routeClick}">{{ task.name }}</h5>
+  <h5 class="name" *ngIf="!routeClick">{{ task.name }}</h5>
   <tui-badge
     size="l"
     class="badge"

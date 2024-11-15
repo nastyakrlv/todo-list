@@ -4,13 +4,14 @@
   <div class="task-container" *ngIf="(isLoading$ | async) === false">
     <ng-container *ngIf="task$ | async as task">
       <app-task
-      [task]="task"
-      [categoryName]="(category$ | async)!.name"
-      [projectId]="projectId"
-      [isAdmin]="isAdmin"
-      (deleteTask)="onDeleteTask($event)"
-      (editTask)="onEditTask($event)"
-    ></app-task>
+        [routeClick]="false"
+        [task]="task"
+        [categoryName]="(category$ | async)!.name"
+        [projectId]="projectId"
+        [isAdmin]="isAdmin"
+        (deleteTask)="onDeleteTask($event)"
+        (editTask)="onEditTask($event)"
+      ></app-task>
     </ng-container>
   </div>
 </div>

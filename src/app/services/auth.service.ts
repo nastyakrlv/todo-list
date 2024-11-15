@@ -67,6 +67,20 @@ export class AuthService {
     );
   }
 
+  changeName(name: string): Observable<IUser> {
+    const user: IUser = JSON.parse(localStorage.getItem('user') || '');
+    user.name = name;
+
+    return this.http.put<IUser>(`${this.apiUrl}/users/${user.id}`, user).pipe(
+      map((user) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      }))
+    );
+  }
+
   logout(): void {
     localStorage.removeItem('user');
   }

@@ -3,12 +3,11 @@ import {
   Component,
   DestroyRef,
   inject,
-  OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectsService, TasksService } from 'src/app/services';
-import { BehaviorSubject, takeUntil } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ICategory, IProject, ITask } from 'src/app/interfaces';
 import { TuiBadge } from '@taiga-ui/kit';
 import { TuiLoader } from '@taiga-ui/core';
@@ -24,7 +23,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskDetailsComponent implements OnInit {
+export class TaskDetailsComponent {
   projectId = '';
   taskId = '';
   project$ = new BehaviorSubject<IProject | null>(null);
@@ -40,7 +39,7 @@ export class TaskDetailsComponent implements OnInit {
   private readonly usersService = inject(UsersService);
   private router = inject(Router);
 
-  ngOnInit() {
+  constructor() {
     this.activatedRoute.params
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {

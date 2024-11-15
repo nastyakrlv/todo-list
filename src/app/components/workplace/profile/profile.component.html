@@ -3,6 +3,7 @@
 
   <div>
     <button tuiButton (click)="showDialog(template)">Сменить пароль</button>
+    <button tuiButton appearance="primary" (click)="showDialog(changeNameTemplate)">Сменить никнейм</button>
     <button tuiButton appearance="primary" (click)="logout()">Выйти</button>
   </div>
 </div>
@@ -30,6 +31,24 @@
     </div>
     <button tuiButton type="submit" [disabled]="passwordForm.invalid">
       Сменить пароль
+    </button>
+  </form>
+</ng-template>
+
+<ng-template #changeNameTemplate let-observer>
+  <h2>Сменить никнейм</h2>
+  <form
+    [formGroup]="nameForm"
+    (ngSubmit)="changeName(); observer.complete()"
+    class="form"
+  >
+    <tui-input formControlName="name">
+      Введите новый никнейм
+      <input tuiTextfieldLegacy type="text" />
+    </tui-input>
+
+    <button tuiButton type="submit" [disabled]="nameForm.invalid">
+      Сменить никнейм
     </button>
   </form>
 </ng-template>
