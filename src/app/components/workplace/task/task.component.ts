@@ -1,46 +1,48 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectsService, TasksService } from 'src/app/services';
-import { take } from 'rxjs';
-import { IProject, ITask } from 'src/app/interfaces';
+import { BehaviorSubject, takeUntil } from 'rxjs';
+import { ICategory, IProject, ITask } from 'src/app/interfaces';
 import { TuiBadge } from '@taiga-ui/kit';
 import { TuiLoader } from '@taiga-ui/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TaskComponent } from '../project/task/task.component';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-task',
+  selector: 'app-task-details',
   standalone: true,
-  imports: [CommonModule, TuiBadge, TuiLoader],
+  imports: [CommonModule, TuiBadge, TuiLoader, TaskComponent],
   templateUrl: './task.component.html',
-  styleUrl: './task.component.scss',
+  styleUrls: ['./task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskDetailsComponent implements OnInit {
   projectId = '';
   taskId = '';
-  project?: IProject;
-  isLoading = true;
-  task: ITask | undefined;
+  project$ = new BehaviorSubject<IProject | null>(null);
+  task$ = new BehaviorSubject<ITask | undefined>(undefined);
+  category$ = new BehaviorSubject<ICategory | undefined>(undefined);
+  isLoading$ = new BehaviorSubject<boolean>(true);
+  isAdmin = false;
 
   private readonly activatedRoute = inject(ActivatedRoute);
-  private changeDetectorRef = inject(ChangeDetectorRef);
   private readonly projectsService = inject(ProjectsService);
   private readonly tasksService = inject(TasksService);
   private destroyRef = inject(DestroyRef);
+  private readonly usersService = inject(UsersService);
+  private router = inject(Router);
 
   ngOnInit() {
     this.activatedRoute.params
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
         this.projectId = params['projectId'];
         this.taskId = params['taskId'];
@@ -48,15 +50,42 @@ export class TaskDetailsComponent implements OnInit {
       });
   }
 
+  onDeleteTask(event: string) {
+    const project = this.project$.getValue();
+    if (project) {
+      this.projectsService.removeTask(project, event).subscribe(() => {
+        this.router.navigate(['..']);
+      });
+    }
+  }
+
+  onEditTask(event: ITask) {
+    const project = this.project$.getValue();
+    if (project) {
+      this.projectsService.editTask(project, event).subscribe((project) => {
+        this.project$.next(project);
+      });
+    }
+  }
+
   private loadProject(): void {
     this.projectsService
       .getProjectById$(this.projectId)
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((project) => {
-        this.project = project;
-        this.task = this.tasksService.getTask(this.project.tasks, this.taskId);
-        this.isLoading = this.task ? false : true;
-        this.changeDetectorRef.detectChanges();
+        this.project$.next(project);
+        this.getCurUserRole();
+        const task = this.tasksService.getTask(project.tasks, this.taskId);
+        this.task$.next(task);
+        this.category$.next(project.categories.find((category: ICategory) => category.id === task?.categoryId));
+        this.isLoading$.next(!task);
       });
+  }
+
+  private getCurUserRole(): void {
+    const project = this.project$.getValue();
+    if (project) {
+      this.isAdmin = this.usersService.curUserIsAdmin(project);
+    }
   }
 }
