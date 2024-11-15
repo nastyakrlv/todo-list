@@ -1,6 +1,10 @@
-<div>
-  <button tuiButton (click)="showDialog(template)">Сменить пароль</button>
-  <button tuiButton appearance="primary" (click)="logout()">Выйти</button>
+<div class="profile-container">
+  <h1 class="title">Профиль</h1>
+
+  <div>
+    <button tuiButton (click)="showDialog(template)">Сменить пароль</button>
+    <button tuiButton appearance="primary" (click)="logout()">Выйти</button>
+  </div>
 </div>
 
 <ng-template #template let-observer>
@@ -25,7 +29,7 @@
       >
     </div>
     <button tuiButton type="submit" [disabled]="passwordForm.invalid">
-      Добавить
+      Сменить пароль
     </button>
   </form>
 </ng-template>

@@ -2,6 +2,9 @@
   <tui-input formControlName="email">
     Введите почту
     <input tuiTextfieldLegacy type="email" />
+    <small *ngIf="loginForm.get('email')?.errors?.['email']">
+      Введите корректный email
+    </small>
   </tui-input>
 
   <tui-input formControlName="password">

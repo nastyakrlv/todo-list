@@ -1,7 +1,6 @@
 import { TuiRoot } from '@taiga-ui/core';
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { AuthService } from './services';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -10,16 +9,6 @@ import { AuthService } from './services';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'todo-list';
-  constructor(private router: Router, private authService: AuthService) {}
-
-  ngOnInit() {
-    const user = this.authService.isLoggedIn();
-    if (user) {
-      this.router.navigate(['/workplace']);
-    } else {
-      this.router.navigate(['/auth']);
-    }
-  }
 }

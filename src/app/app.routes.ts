@@ -13,9 +13,15 @@ import {
 import { AppComponent } from './app.component';
 import { workplaceGuard } from './guards/workplace.guard';
 import { authGuard } from './guards/auth.guard';
+import { redirectGuard } from './guards/redirect.guard';
 
 export const appRoutes: Route[] = [
-  { path: '', pathMatch: 'full', component: AppComponent },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: AppComponent,
+    canActivate: [redirectGuard],
+  },
   { path: 'auth', component: IntroComponent, canActivate: [authGuard] },
   {
     path: 'auth/register',

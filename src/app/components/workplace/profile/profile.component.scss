@@ -21,17 +21,33 @@
   );
 }
 
-div {
+.profile-container {
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
 
-  button {
-    width: 80%;
+  h1 {
+    margin: 0;
+    padding: 30px 35px;
+  
+    @media screen and (max-width: 768px) {
+      padding: 30px 16px;
   }
+  }
+  
+  div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  
+    button {
+      width: 80%;
+    }
+  }
+  
 }
 
 form {
