@@ -3,7 +3,7 @@ image: node:18
 stages:
   - install
   - lint
-  - build
+  - pages
 
 install:
   stage: install
@@ -21,12 +21,11 @@ lint:
     - install
       
 
-build:
-  stage: build
-  script:
-    - npm run build
-  artifacts:
+pages:
+  stage: pages
+  script: npm run build
+    artifacts:
       paths:
-        - build/
+        - public
   dependencies:
     - install

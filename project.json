@@ -13,7 +13,7 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/todo-list",
+        "outputPath": "public",
         "index": "./src/index.html",
         "browser": "./src/main.ts",
         "polyfills": [
@@ -24,7 +24,7 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "public"
+            "input": "static"
           },
           {
             "glob": "**/*",
@@ -102,7 +102,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "todo-list:build",
-        "staticFilePath": "dist/todo-list/browser",
+        "staticFilePath": "public/browser",
         "spa": true
       }
     }
