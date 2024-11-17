@@ -24,8 +24,8 @@ lint:
 pages:
   stage: pages
   script: npm run build
-    artifacts:
-      paths:
-        - public
+  artifacts:
+    paths:
+      - public
   dependencies:
     - install
