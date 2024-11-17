@@ -6,9 +6,9 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "format": "prettier --write src/app/**/*.{scss,ts,html}",
-    "lint": "eslint src/**/*.{js,ts}",
-    "lint:fix": "eslint src/**/*.{js,ts} --fix"
+    "format": "nx format",
+    "lint": "nx lint",
+    "lint:fix": "nx lint --fix"
   },
   "private": true,
   "dependencies": {
