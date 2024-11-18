@@ -105,7 +105,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "todo-list:build",
-        "staticFilePath": "public/browser",
+        "staticFilePath": "public",
         "spa": true
       }
     }
