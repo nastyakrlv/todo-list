@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   inject,
   Input,
@@ -34,6 +35,7 @@ import { type PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import { TuiDay } from '@taiga-ui/cdk';
 import { ProjectsService } from 'src/app/services';
 import { RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-task',
@@ -69,6 +71,7 @@ export class TaskComponent implements OnInit, OnChanges {
   protected status = ['Сделано', 'Не сделано'];
 
   private readonly projectsService = inject(ProjectsService);
+  private destroyRef = inject(DestroyRef);
 
   protected categories: ICategory[] = [];
 
@@ -84,6 +87,7 @@ export class TaskComponent implements OnInit, OnChanges {
   getCategoriesList() {
     this.projectsService
       .getCategoriesByProjectId(this.projectId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((categories) => {
         this.categories = categories;
       });

@@ -2,13 +2,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
   Input,
   OnInit,
 } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ProjectsService } from 'src/app/services/projects.service';
-import { take } from 'rxjs';
 import { IProject } from 'src/app/interfaces/project.interface';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import {
@@ -25,6 +25,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/legacy';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-projects',
@@ -46,6 +47,7 @@ import { TuiInputModule } from '@taiga-ui/legacy';
 export class ProjectsComponent implements OnInit {
   @Input() projectType = '';
 
+  private destroyRef = inject(DestroyRef);
   private changeDetectorRef = inject(ChangeDetectorRef);
   private readonly projectsService = inject(ProjectsService);
 
@@ -58,7 +60,7 @@ export class ProjectsComponent implements OnInit {
   private loadProjects(): void {
     this.projectsService
       .getProjectsByCurrentUser(this.projectType)
-      .pipe(take(1))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((projects) => {
         this.projects = projects;
         this.changeDetectorRef.detectChanges();
@@ -80,6 +82,7 @@ export class ProjectsComponent implements OnInit {
 
     this.projectsService
       .createNewProject(projectData.name, this.projectType)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((project) => {
         this.projects.push(project);
         this.changeDetectorRef.detectChanges();

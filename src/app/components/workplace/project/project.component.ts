@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
   OnInit,
 } from '@angular/core';
@@ -9,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryCardComponent } from './category-card/category-card.component';
 import { ProjectsService } from 'src/app/services/projects.service';
-import { BehaviorSubject, finalize, take } from 'rxjs';
+import { BehaviorSubject, finalize } from 'rxjs';
 import { IProject } from 'src/app/interfaces/project.interface';
 import { ProjectSelectComponent } from './project-select/project-select.component';
 import { TasksService } from 'src/app/services/tasks.service';
@@ -38,6 +39,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { IUserName } from 'src/app/interfaces/user-name.interface';
 import { TuiAvatar, TuiAvatarStack } from '@taiga-ui/kit';
 import { UsersCardComponent } from './users-card/users-card.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-project',
@@ -64,6 +66,7 @@ import { UsersCardComponent } from './users-card/users-card.component';
 export class ProjectComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
   private readonly usersService = inject(UsersService);
   private readonly projectsService = inject(ProjectsService);
   private readonly tasksService = inject(TasksService);
@@ -78,24 +81,25 @@ export class ProjectComponent implements OnInit {
   isLoading = true;
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.isLoading = true;
-      this.projectId = params['projectId'];
-      this.loadProject();
-    });
+    this.activatedRoute.params
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        this.isLoading = true;
+        this.projectId = params['projectId'];
+        this.loadProject();
+      });
   }
 
   private loadProject(): void {
     this.projectsService
       .getProjectById$(this.projectId)
       .pipe(
-        take(1),
+        takeUntilDestroyed(this.destroyRef),
         finalize(() => (this.isLoading = false))
       )
       .subscribe((project) => {
         this.project = project;
         this.role = this.projectsService.getCurrentUserRole(project);
-        this.changeDetectorRef.detectChanges();
         this.mapUsers();
         this.getCurUserRole();
       });
@@ -104,14 +108,16 @@ export class ProjectComponent implements OnInit {
   private mapUsers(): void {
     const arr: IUserName[] = [];
     this.project.users.forEach((user) => {
-      this.usersService.getUserById(user.id).subscribe((userInfo) => {
-        arr.push({
-          ...userInfo,
-          role: user.role,
+      this.usersService.getUserById(user.id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((userInfo) => {
+          arr.push({
+            ...userInfo,
+            role: user.role,
+          });
+          this.users = [...arr];
+          this.changeDetectorRef.detectChanges();
         });
-        this.users = [...arr];
-        this.changeDetectorRef.detectChanges();
-      });
     });
   }
 
@@ -141,6 +147,7 @@ export class ProjectComponent implements OnInit {
 
     this.projectsService
       .createNewCategory(this.project, name)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((project) => {
         this.project = project;
         this.changeDetectorRef.detectChanges();
@@ -166,6 +173,7 @@ export class ProjectComponent implements OnInit {
   onDeleteCategory(categoryId: string) {
     this.projectsService
       .removeCategory(this.project, categoryId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((project) => {
         this.project = project;
         this.changeDetectorRef.detectChanges();
@@ -175,6 +183,7 @@ export class ProjectComponent implements OnInit {
   onAddTask(event: ICreateTask, categoryId: string) {
     this.projectsService
       .createNewTask(this.project, categoryId, event)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((project) => {
         this.project = project;
         this.changeDetectorRef.detectChanges();
@@ -184,6 +193,7 @@ export class ProjectComponent implements OnInit {
   onDeleteTask(event: string) {
     this.projectsService
       .removeTask(this.project, event)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((project) => {
         this.project = project;
         this.changeDetectorRef.detectChanges();
@@ -191,23 +201,28 @@ export class ProjectComponent implements OnInit {
   }
 
   onEditTask(event: ITask) {
-    this.projectsService.editTask(this.project, event).subscribe((project) => {
-      this.project = project;
-      this.changeDetectorRef.detectChanges();
-    });
+    this.projectsService.editTask(this.project, event)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((project) => {
+        this.project = project;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   addUser(event: string) {
-    this.projectsService.addUser(this.project, event).subscribe((project) => {
-      this.project = project;
-      this.mapUsers();
-      this.changeDetectorRef.detectChanges();
-    });
+    this.projectsService.addUser(this.project, event)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((project) => {
+        this.project = project;
+        this.mapUsers();
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   deleteUser(event: string) {
     this.projectsService
       .deleteUser(this.project, event)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((project) => {
         this.project = project;
         this.mapUsers();
@@ -218,6 +233,7 @@ export class ProjectComponent implements OnInit {
   onDeleteProject() {
     this.projectsService
       .deleteProjectById(this.projectId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.router.navigate(['workplace/projects']));
   }
 }

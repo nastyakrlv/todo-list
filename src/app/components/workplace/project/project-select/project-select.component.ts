@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   Input,
   OnChanges,
@@ -10,8 +11,8 @@ import { TuiChevron } from '@taiga-ui/kit';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TuiButton, TuiDataList, TuiDropdown, TuiIcon } from '@taiga-ui/core';
 import { ProjectsService } from 'src/app/services/projects.service';
-import { take } from 'rxjs';
 import { IProject } from 'src/app/interfaces/project.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-project-select',
@@ -34,6 +35,7 @@ import { IProject } from 'src/app/interfaces/project.interface';
 })
 export class ProjectSelectComponent implements OnChanges {
   private readonly projectsService = inject(ProjectsService);
+  private destroyRef = inject(DestroyRef);
 
   @Input() currentProjectName = '';
   @Input() projectType = '';
@@ -54,7 +56,7 @@ export class ProjectSelectComponent implements OnChanges {
   private loadProjects(): void {
     this.projectsService
       .getProjectsByCurrentUser(this.projectType)
-      .pipe(take(1))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((projects) => {
         this.projects = projects;
       });
