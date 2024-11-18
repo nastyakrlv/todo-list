@@ -3,7 +3,8 @@ image: node:18
 stages:
   - install
   - lint
-  - pages
+  - build
+  - deploy
 
 install:
   stage: install
@@ -19,13 +20,23 @@ lint:
     - npm run lint
   dependencies:
     - install
-      
 
+build:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - public/
+  dependencies:
+    - install
+      
 pages:
-  stage: pages
-  script: npm run build
+  stage: deploy
+  script: 
+    - echo "Deploying to GitLab Pages"
   artifacts:
     paths:
       - public
   dependencies:
-    - install
+    - build
