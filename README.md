@@ -7,7 +7,7 @@
 
 ## Ссылка на общедоступный адрес 
 
-[Ссылка на общедоступный адрес ](https://www.example.com)
+[Ссылка на общедоступный адрес ](https://fintech-js-autumn-2024.edu-gitlab.ru/Homeworks/course-work/course-work-TodoList/)
 
 ## Установка зависимостей
 
